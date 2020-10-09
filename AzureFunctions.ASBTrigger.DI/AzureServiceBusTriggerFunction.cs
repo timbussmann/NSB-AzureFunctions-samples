@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 public class AzureServiceBusTriggerFunction
 {
+    private const string EndpointName = "ASBTriggerQueue";
+
     public AzureServiceBusTriggerFunction(FunctionEndpoint endpoint)
     {
         this.endpoint = endpoint;
     }
-
-    #region Function
-
-    private const string EndpointName = "ASBTriggerQueue";
 
     [FunctionName(EndpointName)]
     public async Task Run(
@@ -24,8 +22,6 @@ public class AzureServiceBusTriggerFunction
     {
         await endpoint.Process(message, executionContext, logger);
     }
-
-    #endregion
 
     private readonly FunctionEndpoint endpoint;
 }

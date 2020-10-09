@@ -8,10 +8,12 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddScoped(typeof(MyService));
-        builder.Services.AddScoped<IMyService>(sp => sp.GetRequiredService<MyService>());
+        var services = builder.Services;
 
-        builder.Services.AddSingleton(sp => new FunctionEndpoint(executionContext =>
+        services.AddScoped(typeof(MyService));
+        services.AddScoped<IMyService>(sp => sp.GetRequiredService<MyService>());
+
+        services.AddSingleton(sp => new FunctionEndpoint(executionContext =>
         {
             var configuration = ServiceBusTriggeredEndpointConfiguration.FromAttributes();
 
@@ -19,7 +21,7 @@ public class Startup : FunctionsStartup
 
             configuration.LogDiagnostics();
 
-            configuration.AdvancedConfiguration.UseContainer(new CustomServiceProviderFactory(builder.Services));
+            configuration.AdvancedConfiguration.UseContainer(new CustomServiceProviderFactory(services));
 
             return configuration;
         }));
