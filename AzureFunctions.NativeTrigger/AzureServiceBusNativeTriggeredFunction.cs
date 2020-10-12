@@ -22,6 +22,8 @@ namespace AzureFunctions.NativeTrigger
             log.LogInformation($"C# ServiceBus queue trigger function processed message: {Encoding.UTF8.GetString(message.Body)}");
 
             var any = await myDbContext.Users.AnyAsync();
+
+            log.LogInformation($"Found any users: {any}");
         }
     }
 }
