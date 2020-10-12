@@ -1,7 +1,10 @@
 ﻿using System;
+using AzureFunctions.ASBTrigger.DI;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NServiceBus;
 
 [assembly: FunctionsStartup(typeof(Startup))]
@@ -22,6 +25,12 @@ public class Startup : FunctionsStartup
 
         services.AddScoped(typeof(MyService));
         services.AddScoped<IMyService>(sp => sp.GetRequiredService<MyService>());
+
+        services.AddDbContext<MyDbContext>(delegate(DbContextOptionsBuilder options)
+        {
+            var connectionString = configurationRoot.GetConnectionString("MyDbConnectionString");
+            options.UseSqlServer(connectionString);
+        });
 
         services.AddSingleton(sp => new FunctionEndpoint(executionContext =>
         {
