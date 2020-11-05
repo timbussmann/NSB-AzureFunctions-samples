@@ -4,7 +4,6 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NServiceBus;
 
 [assembly: FunctionsStartup(typeof(Startup))]
@@ -23,36 +22,20 @@ public class Startup : FunctionsStartup
             .Build();
         services.AddSingleton<IConfiguration>(configurationRoot);
 
-        services.AddScoped(typeof(MyService));
-        services.AddScoped<IMyService>(sp => sp.GetRequiredService<MyService>());
-
-        services.AddDbContext<MyDbContext>(delegate(DbContextOptionsBuilder options)
+        services.AddDbContext<MyDbContext>(delegate (DbContextOptionsBuilder options)
         {
             var connectionString = configurationRoot.GetConnectionString("MyDbConnectionString");
             options.UseSqlServer(connectionString);
+            options.EnableServiceProviderCaching(false);
         });
 
-        services.AddSingleton(sp => new FunctionEndpoint(executionContext =>
+        services.UseNServiceBus(() =>
         {
-            var configuration = ServiceBusTriggeredEndpointConfiguration.FromAttributes();
+            //TODO FromAttributes does not work as the function declaration is not in the stack when this method is called.
+            //var configuration = ServiceBusTriggeredEndpointConfiguration.FromAttributes();
 
-            configuration.UseSerialization<NewtonsoftSerializer>();
-
-            configuration.LogDiagnostics();
-
-            configuration.AdvancedConfiguration.UseContainer(new CustomServiceProviderFactory(services));
-
+            var configuration = new ServiceBusTriggeredEndpointConfiguration(AzureServiceBusTriggerFunction.EndpointName, "AzureWebJobsServiceBus");
             return configuration;
-        }));
+        });
     }
-}
-
-public class MyService : IMyService
-{
-    public string SayHello() => "Hello!";
-}
-
-public interface IMyService
-{
-    string SayHello();
 }

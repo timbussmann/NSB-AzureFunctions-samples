@@ -1,29 +1,40 @@
-using System.Text;
+using System;
 using System.Threading.Tasks;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using NServiceBus;
 
 namespace AzureFunctions.NativeTrigger
 {
     public class AzureServiceBusNativeTriggeredFunction
     {
-        private readonly MyDbContext myDbContext;
+        private const string EndpointName = "ASBTriggerQueue";
 
-        public AzureServiceBusNativeTriggeredFunction(MyDbContext myDbContext)
+        private static FunctionEndpoint endpoint = new FunctionEndpoint(c =>
         {
-            this.myDbContext = myDbContext;
-        }
+            var configurationRoot = new ConfigurationBuilder()
+                .SetBasePath(Environment.CurrentDirectory)
+                .AddJsonFile("local.settings.json")
+                .AddEnvironmentVariables()
+                .Build();
+
+            var config = new ServiceBusTriggeredEndpointConfiguration(EndpointName);
+            var dbContextBuilder = new DbContextOptionsBuilder<MyDbContext>();
+            dbContextBuilder.UseSqlServer(configurationRoot.GetConnectionString("MyDbConnectionString"));
+
+            // should be in a UOW to dispose the context and so on
+            config.AdvancedConfiguration.RegisterComponents(r => r.ConfigureComponent(() => new MyDbContext(dbContextBuilder.Options), DependencyLifecycle.InstancePerCall));
+
+            return config;
+        });
 
         [FunctionName("Function1")]
-        public async Task Run([ServiceBusTrigger("asbtriggerqueue", Connection = "AzureWebJobsServiceBus")] Message message, ILogger log)
+        public static Task Run([ServiceBusTrigger(EndpointName)] Message message, ExecutionContext context, ILogger log)
         {
-            log.LogInformation($"C# ServiceBus queue trigger function processed message: {Encoding.UTF8.GetString(message.Body)}");
-
-            var any = await myDbContext.Users.AnyAsync();
-
-            log.LogInformation($"Found any users: {any}");
+            return endpoint.Process(message, context, log);
         }
     }
 }
