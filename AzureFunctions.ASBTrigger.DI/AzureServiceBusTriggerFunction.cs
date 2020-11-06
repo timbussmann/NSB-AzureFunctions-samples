@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.Azure.ServiceBus;
+﻿using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using NServiceBus;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 public class AzureServiceBusTriggerFunction
 {
