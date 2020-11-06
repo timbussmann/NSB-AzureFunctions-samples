@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctions.Messages", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctions.NativeTrigger", "AzureFunctions.NativeTrigger\AzureFunctions.NativeTrigger.csproj", "{01EF4E0A-9DE5-43B1-B0B9-27A94ACDF39A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandlerLib", "HandlerLib\HandlerLib.csproj", "{40170AC9-C563-4E6E-BFD9-21931BDAD611}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,18 @@ Global
 		{01EF4E0A-9DE5-43B1-B0B9-27A94ACDF39A}.Release|x64.Build.0 = Release|Any CPU
 		{01EF4E0A-9DE5-43B1-B0B9-27A94ACDF39A}.Release|x86.ActiveCfg = Release|Any CPU
 		{01EF4E0A-9DE5-43B1-B0B9-27A94ACDF39A}.Release|x86.Build.0 = Release|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Debug|x64.Build.0 = Debug|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Debug|x86.Build.0 = Debug|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Release|x64.ActiveCfg = Release|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Release|x64.Build.0 = Release|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Release|x86.ActiveCfg = Release|Any CPU
+		{40170AC9-C563-4E6E-BFD9-21931BDAD611}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

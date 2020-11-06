@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AzureFunctions.Messages\AzureFunctions.Messages.csproj" />
+    <ProjectReference Include="..\HandlerLib\HandlerLib.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="..\local.settings.json" Link="local.settings.json">
