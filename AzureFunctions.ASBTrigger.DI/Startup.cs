@@ -13,6 +13,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var services = builder.Services;
+        var rootPath = builder.GetContext().ApplicationRootPath;
 
         var configurationRoot = new ConfigurationBuilder()
             .SetBasePath(Environment.CurrentDirectory)
@@ -29,7 +30,7 @@ public class Startup : FunctionsStartup
             options.EnableServiceProviderCaching(false);
         });
 
-        services.UseNServiceBus(() =>
+        builder.UseNServiceBus(() =>
         {
             //TODO FromAttributes does not work as the function declaration is not in the stack when this method is called.
             //var configuration = ServiceBusTriggeredEndpointConfiguration.FromAttributes();
