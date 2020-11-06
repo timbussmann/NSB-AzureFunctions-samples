@@ -13,7 +13,6 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var services = builder.Services;
-        var rootPath = builder.GetContext().ApplicationRootPath;
 
         var configurationRoot = new ConfigurationBuilder()
             .SetBasePath(Environment.CurrentDirectory)
@@ -23,7 +22,7 @@ public class Startup : FunctionsStartup
             .Build();
         services.AddSingleton<IConfiguration>(configurationRoot);
 
-        services.AddDbContext<MyDbContext>(delegate (DbContextOptionsBuilder options)
+        services.AddDbContext<MyDbContext>(options => 
         {
             var connectionString = configurationRoot.GetConnectionString("MyDbConnectionString");
             options.UseSqlServer(connectionString);
