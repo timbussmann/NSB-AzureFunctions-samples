@@ -4,6 +4,9 @@
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
 
-    "AzureWebJobsServiceBus": "<connection-string-here>"
+    "AzureWebJobsServiceBus": "<connection string>"
+  },
+  "ConnectionStrings": {
+    "MyDbConnectionString": "<connection string>"
   }
 }
