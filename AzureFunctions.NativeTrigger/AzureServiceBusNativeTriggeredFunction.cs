@@ -26,7 +26,7 @@ namespace AzureFunctions.NativeTrigger
             dbContextBuilder.UseSqlServer(configurationRoot.GetConnectionString("MyDbConnectionString"));
 
             // should be in a UOW to dispose the context and so on
-            config.AdvancedConfiguration.RegisterComponents(r => r.ConfigureComponent(() => new MyDbContext(dbContextBuilder.Options), DependencyLifecycle.InstancePerCall));
+            config.AdvancedConfiguration.RegisterComponents(r => r.ConfigureComponent(() => new MyDbContext(dbContextBuilder.Options), DependencyLifecycle.InstancePerUnitOfWork));
 
             return config;
         });
