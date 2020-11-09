@@ -13,10 +13,10 @@ namespace AzureFunctions.NativeTrigger
     {
         private const string EndpointName = "ASBTriggerQueue";
 
-        private static FunctionEndpoint endpoint = new FunctionEndpoint(c =>
+        private static FunctionEndpoint endpoint = new FunctionEndpoint(functionExecutionContext =>
         {
             var configurationRoot = new ConfigurationBuilder()
-                .SetBasePath(Environment.CurrentDirectory)
+                .SetBasePath(functionExecutionContext.ExecutionContext.FunctionAppDirectory)
                 .AddJsonFile("local.settings.json")
                 .AddEnvironmentVariables()
                 .Build();
