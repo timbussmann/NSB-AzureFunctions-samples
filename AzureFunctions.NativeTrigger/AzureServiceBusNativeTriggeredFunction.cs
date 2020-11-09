@@ -15,15 +15,9 @@ namespace AzureFunctions.NativeTrigger
 
         private static FunctionEndpoint endpoint = new FunctionEndpoint(functionExecutionContext =>
         {
-            var configurationRoot = new ConfigurationBuilder()
-                .SetBasePath(functionExecutionContext.ExecutionContext.FunctionAppDirectory)
-                .AddJsonFile("local.settings.json")
-                .AddEnvironmentVariables()
-                .Build();
-
             var config = new ServiceBusTriggeredEndpointConfiguration(EndpointName);
             var dbContextBuilder = new DbContextOptionsBuilder<MyDbContext>();
-            dbContextBuilder.UseSqlServer(configurationRoot.GetConnectionString("MyDbConnectionString"));
+            dbContextBuilder.UseSqlServer(Environment.GetEnvironmentVariable("MyDbConnectionString2"));
 
             // should be in a UOW to dispose the context and so on
             config.AdvancedConfiguration.RegisterComponents(r => r.ConfigureComponent(() => new MyDbContext(dbContextBuilder.Options), DependencyLifecycle.InstancePerUnitOfWork));
