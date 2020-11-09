@@ -31,7 +31,7 @@ namespace AzureFunctions.NativeTrigger
             return config;
         });
 
-        [FunctionName("Function1")]
+        [FunctionName(EndpointName)]
         public static Task Run([ServiceBusTrigger(EndpointName)] Message message, ExecutionContext context, ILogger log)
         {
             return endpoint.Process(message, context, log);
