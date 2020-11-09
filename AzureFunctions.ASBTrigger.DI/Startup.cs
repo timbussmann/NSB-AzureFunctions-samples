@@ -14,15 +14,11 @@ public class Startup : FunctionsStartup
     {
         var services = builder.Services;
 
-        var configurationRoot = new ConfigurationBuilder()
-            .SetBasePath(Environment.CurrentDirectory)
-            .AddJsonFile("local.settings.json")
-            .AddUserSecrets<Startup>()
-            .AddEnvironmentVariables()
-            .Build();
+        var configurationRoot = builder.GetContext().Configuration;
+
         services.AddSingleton<IConfiguration>(configurationRoot);
 
-        services.AddDbContext<MyDbContext>(options => 
+        services.AddDbContext<MyDbContext>(options =>
         {
             var connectionString = configurationRoot.GetConnectionString("MyDbConnectionString");
             options.UseSqlServer(connectionString);
